@@ -1,3 +1,5 @@
+;BootLoader Test Image 
+
 [ORG 0x00]
 [BITS 16]
 
@@ -21,7 +23,7 @@ START:
         %assign i  i+1
         mov     ax, 2
 
-        mul     word[SECTOR_COUNT]
+        mul     word [ SECTOR_COUNT ]
         mov     si, ax 
 
         mov     byte [ es: si + (160 * 7) ], '0' + (i % 10)

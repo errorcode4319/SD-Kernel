@@ -190,7 +190,7 @@ PRINTLINE:
 
 ; bootloader launch messages
 MSG_BOOT_1:   db  '[SDos v0.1]', 0 
-MSG_BOOT_2:   db  'Boot Loader Running', 0     
+MSG_BOOT_2:   db  'Boot Loader Running...', 0     
 MSG_BOOT_3:   db  'SourceCode => http://github.com/errorcode4319/SD-Kernel', 0
 
 ; Image Loading Messages 
