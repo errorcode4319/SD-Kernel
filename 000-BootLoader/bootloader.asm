@@ -60,8 +60,77 @@ START:
     call    PRINTLINE 
     add     sp, 6
 
-    jmp     $
+.RESET_DISK:
+    ; call bios reset function 
+    ; https://wiki.osdev.org/Real_Mode
+    ; service 0 (ax), drive 0 (dl)
+    mov     ax, 0
+    mov     dl, 0
+    int     0x13 
+    ; Exception - Reset Drive Failed 
+    jc      HANDLE_DISK_ERROR 
 
+
+    mov     si, 0x1000 
+    mov     es, si              ; 0x10000 - Image Copy Address 
+    mov     bx, 0x0000
+
+    mov     di, word [ TOTAL_SECTOR_COUNT ]
+
+READ_DISK:
+    cmp     di, 0
+    je      READ_END
+    sub     di, 0x01 
+
+    ; call bios read function 
+    ;service 2 (ah),
+    mov     ah, 0x02 
+    mov     al, 0x1             ; Read 1 Sector 
+    mov     ch, byte [ DISK_NUM_TRACK ]
+    mov     cl, byte [ DISK_NUM_SECTOR ]
+    mov     dh, byte [ DISK_NUM_HEAD ]
+    mov     dl, 0x00            ; drive 0
+    int     0x13 
+    ; Exception - Read Disk Failed 
+    jc      HANDLE_DISK_ERROR
+
+
+    add     si, 0x0020  ; 512byte == 1 sector 
+    mov     es, si 
+
+    mov     al, byte [ DISK_NUM_SECTOR ]
+    add     al, 0x01 
+    mov     byte [ DISK_NUM_SECTOR ], al 
+    cmp     al, 19 
+    jl      READ_DISK 
+
+    xor     byte [ DISK_NUM_HEAD ], 0x01    ; Head Number Toggle
+    mov     byte [ DISK_NUM_SECTOR ], 0x01  ; Sector Number to 1
+
+    cmp     byte [ DISK_NUM_HEAD ], 0x00    ; If Head == 0 -> Read Track Done
+    jne     READ_DISK 
+
+    add     byte [ DISK_NUM_TRACK ], 0x01   
+    jmp     READ_DISK 
+    
+READ_END:
+    push    MSG_IMG_LOADING_COMPLETE 
+    push    4
+    push    20 
+    call    PRINTLINE 
+    add     sp, 6
+
+    ;Start Loaded OS Image
+    jmp     0x1000:0x0000 
+
+
+HANDLE_DISK_ERROR:
+    push    MSG_IMG_LOADING_FAILED
+    push    4
+    push    20 
+    call    PRINTLINE 
+    add     sp, 6
+    jmp     $
 
 ; Print Message in 16bit real mode 
 ; param X, Y, String Address 
