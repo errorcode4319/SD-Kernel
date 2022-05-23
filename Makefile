@@ -1,4 +1,4 @@
-all: BootLoader Disk.img
+all: BootLoader Kernel32 OS.img
 
 
 BootLoader:
@@ -11,12 +11,12 @@ Kernel32:
 	make -C 001-Kernel32
 
 
-Disk.img: BootLoader Kernel32
+OS.img: 000-BootLoader/BootLoader.bin 001-Kernel32/Kernel32.bin
 	@echo ========== Build Disk Image ==========
-	cat 000-BootLoader/BootLoader.bin 001-Kernel32/TestOS.bin > SDos.img 
+	cat  $^ > OS.img 
 
 
 clean:
 	make -C 000-BootLoader clean 
 	make -C 001-Kernel32 clean 
-	rm -f SDos.img 
+	rm -f OS.img 

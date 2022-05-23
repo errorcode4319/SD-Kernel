@@ -7,7 +7,7 @@ jmp         0x07C0:START            ;mov 0x07C0 to CS Segment Register
 ;===========================================;
 ;Environment Datas 
 ;===========================================;
-TOTAL_SECTOR_COUNT: dw  1024 
+TOTAL_SECTOR_COUNT: dw  1 
 
 
 START:
@@ -19,7 +19,7 @@ START:
     ; Init Stack Memory 
     ; Stack Segment <- 0x0000
     ; Base Pointer <- 0xFFFE 
-    mov     ax, 0x0000              
+    mov     ax, 0x0000               
     mov     ss, ax                   
     mov     sp, 0xFFFE 
     mov     bp, 0xFFFE
@@ -197,11 +197,16 @@ MSG_BOOT_3:   db  'SourceCode => http://github.com/errorcode4319/SD-Kernel', 0
 MSG_IMG_LOADING_START:      db  'OS Image Loading...', 0
 MSG_IMG_LOADING_FAILED:     db  'DISK Error~!!', 0
 MSG_IMG_LOADING_COMPLETE:   db  'Image Loading Complete!', 0
+MSG_IMG_LOADING_STATUS:     db  '#', 0
 
 ; Disk Read Start Offset 
 DISK_NUM_SECTOR:    db  0x02
 DISK_NUM_HEAD:      db  0x00 
 DISK_NUM_TRACK:     db  0x00      
+
+; Print Status Variables (Unused ;;)
+CUR_POS_X:  db  0x00
+CUR_POS_Y:  db  0x07
 
 
 ; Empty Spaces

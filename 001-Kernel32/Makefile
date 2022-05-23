@@ -1,7 +1,7 @@
-all: TestOS.bin
+all: Kernel32.bin 
 
-TestOS.bin: TestOS.asm 
-	nasm -o TestOS.bin TestOS.asm 
+Kernel32.bin: src/entry.s 
+	nasm -o Kernel32.bin $<
 
 clean:
-	rm -f TestOS.bin 
+	rm -f Kernel32.bin 
