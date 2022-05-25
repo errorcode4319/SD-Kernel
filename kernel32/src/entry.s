@@ -36,13 +36,13 @@ PROTECTED_MODE:
     mov     esp, 0xFFFE     
     mov     ebp, 0xFFFE 
 
-    push    ( MSG_MODE_SWITCH_SUCCDESS - $$ + 0x10000)
+    push    ( MSG_MODE_SWITCH_SUCCESS - $$ + 0x10000)
     push    6
     push    3 
     call    PRINTLINE32 
     add     esp, 12 
 
-    jmp     $
+    jmp     dword 0x08: 0x10200
 
 
 PRINTLINE32:
@@ -134,6 +134,6 @@ GDTEND:
 
 
 ; Message 
-MSG_MODE_SWITCH_SUCCDESS:   db 'Switch To Protected Mode Success', 0
+MSG_MODE_SWITCH_SUCCESS:   db 'Switch To Protected Mode Success', 0
 
 times 512 - ($ - $$) db 0x00

@@ -7,7 +7,7 @@ jmp         0x07C0:START            ;mov 0x07C0 to CS Segment Register
 ;===========================================;
 ;Environment Datas 
 ;===========================================;
-TOTAL_SECTOR_COUNT: dw  1 
+TOTAL_SECTOR_COUNT: dw  0x02
 
 
 START:

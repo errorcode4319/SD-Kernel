@@ -3,20 +3,20 @@ all: BootLoader Kernel32 OS.img
 
 BootLoader:
 	@echo ========== Build Boot Loader ==========
-	make -C 000-BootLoader
+	make -C boot
 
 
 Kernel32:
 	@echo ========== Build Test Kernel ==========
-	make -C 001-Kernel32
+	make -C kernel32
 
 
-OS.img: 000-BootLoader/BootLoader.bin 001-Kernel32/Kernel32.bin
+OS.img: boot/bootloader.bin kernel32/kernel32.bin
 	@echo ========== Build Disk Image ==========
 	cat  $^ > OS.img 
 
 
 clean:
-	make -C 000-BootLoader clean 
-	make -C 001-Kernel32 clean 
+	make -C boot clean 
+	make -C kernel32 clean 
 	rm -f OS.img 

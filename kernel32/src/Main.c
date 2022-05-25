@@ -6,12 +6,12 @@ void PutText(int x, int y, const char* pText);
 
 // Entry Point
 void Main() {
-    PutText(0, 3, "32Bit Kernel has written in C");
+    PutText(3, 8, "32Bit Kernel has written in C");
 }
 
 void PutText(int x, int y, const char* pText) {
 
-    Char*   pVideoMem = (Char*)0xB800;
+    Char*   pVideoMem = (Char*)0xB8000;
     int i;
     pVideoMem += (y * 80) + x;
     for(i=0; pText[i] != 0; i++) {
