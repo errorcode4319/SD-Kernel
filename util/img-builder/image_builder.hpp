@@ -15,25 +15,22 @@ public:
     bool    newImage(const std::string& targetPath);
     bool    saveImage();
 
-    // Return Added Sector Count
-    // Add Sector From Binary 
-    size_t  addBin(const std::string& binPath);
-    size_t  addBin(const uint8_t* pBuf, size_t len);
+    // Return Total Image Size
+    // If Add Bin Failed => return -1 
+    int     addBin(const std::string& binPath);
+    int     addBin(const uint8_t* pBuf, size_t len);
 
 private:
-    // Return Total ImageSize
-    size_t  copyBin(const uint8_t* pBuf, size_t len);
     // Return Total Number of Sector
-    size_t  adjustSector(size_t srcSize);
+    size_t  adjustSector(size_t srcLen);
 
     // in saveImage()
     bool    updateKernelInfo()
 
 private:
-    size_t          mImageSize;
-    size_t          mNumSectors;
-    bool            mIsWorking;
-    std::ofstream   mDstFileStream;
+    size_t          mImageSize      = 0;
+    size_t          mNumSectors     = 0;
+    std::ofstream   mImgOut;
 }
 
 #endif __IMAGE_BUILDER_
